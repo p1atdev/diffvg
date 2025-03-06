@@ -1,0 +1,21 @@
+{
+	"name": "Python 3",
+	"image": "mcr.microsoft.com/devcontainers/python:1-3.10-bullseye",
+	"features": {
+		"ghcr.io/devcontainers/features/conda:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/nvidia-cuda:1": {
+			"installCudnn": true,
+			"installCudnnDev": true,
+			"installToolkit": true,
+			"cudaVersion": "12.4"
+		}
+	},
+	"hostRequirements": {
+		"gpu": "optional"
+	},
+	"runArgs": [
+		"--gpus",
+		"all"
+	]
+}
