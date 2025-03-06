@@ -2,8 +2,8 @@ name: Build wheel
 
 on:
   push:
-    # tags: 
-    #   - 'v*'
+    tags: 
+      - "*.*.*-build-*"
     branches: 
       - master
   workflow_dispatch:
@@ -52,3 +52,9 @@ jobs:
         with:
           name: diffvg-${{ github.ref_name }}-${{ matrix.python-version }}-${{ matrix.platform }}
           path: dist/*.whl
+
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/*.whl
+          tag_name: ${{ github.ref }}
