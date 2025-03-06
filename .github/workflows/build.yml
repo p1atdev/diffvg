@@ -5,7 +5,7 @@ on:
     # tags: 
     #   - 'v*'
     branches: 
-      - 'master'
+      - master
 
 
 jobs:
@@ -18,7 +18,6 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
-          - "3.12"
     env:
       UV_SYSTEM_PYTHON: 1
       DIFFVG_CUDA: 1
@@ -35,7 +34,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install the project
-        run: uv sync --dev
+        run: uv sync --no-dev
       
       - name: Build the wheel
         run: python setup.py bdist_wheel
