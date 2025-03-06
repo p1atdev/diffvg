@@ -1,0 +1,47 @@
+name: Build wheel
+
+on:
+  push:
+    # tags: 
+    #   - 'v*'
+    branches: 
+      - 'master'
+
+
+jobs:
+  build-wheel:
+    name: python
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        python-version:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+    env:
+      UV_SYSTEM_PYTHON: 1
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: "Set up Python"
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the project
+        run: uv sync --dev
+      
+      - name: Build the wheel
+        run: python setup.py bdist_wheel
+      
+      - name: Upload the wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ matrix.python-version }}
+          path: dist/*.whl
