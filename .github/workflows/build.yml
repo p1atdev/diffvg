@@ -30,6 +30,8 @@ jobs:
       - uses: Jimver/cuda-toolkit@v0.2.21
         with:
           cuda: "12.4.1"
+          method: network
+          sub-packages: '["nvcc", "cudart", "thrust"]'
 
       - name: "Set up Python"
         uses: astral-sh/setup-uv@v5
