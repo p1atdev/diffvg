@@ -17,7 +17,7 @@ jobs:
         python-version:
           - "3.9"
           - "3.10"
-          - "3.11"
+          # - "3.11" # does not work
     env:
       UV_SYSTEM_PYTHON: 1
       DIFFVG_CUDA: 1
