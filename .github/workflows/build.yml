@@ -53,8 +53,15 @@ jobs:
           name: diffvg-${{ github.ref_name }}-${{ matrix.python-version }}-${{ matrix.platform }}
           path: dist/*.whl
 
-      - uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+      # - name: Upload to release
+      #   uses: softprops/action-gh-release@v2
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     files: dist/*.whl
+
+      - name: Upload to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          files: dist/*.whl
-          tag_name: ${{ github.ref }}
+          file: dist/*.whl
+          file_glob: true
+          tag: ${{ github.ref_name }}
