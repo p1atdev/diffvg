@@ -47,11 +47,8 @@ jobs:
       - name: Build the wheel
         run: python setup.py bdist_wheel
       
-      - name: Move built wheel
-        run: mv dist/*.whl dist/diffvg-${{ github.ref_name }}-${{ matrix.python-version }}-${{ matrix.platform }}.whl
-      
       - name: Upload the wheel
         uses: actions/upload-artifact@v4
         with:
           name: diffvg-${{ github.ref_name }}-${{ matrix.python-version }}-${{ matrix.platform }}
-          path: dist/diffvg-${{ github.ref_name }}-${{ matrix.python-version }}-${{ matrix.platform }}.whl
+          path: dist/*.whl
