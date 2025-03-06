@@ -14,11 +14,13 @@ from setuptools.command.install import install
 from distutils.sysconfig import get_config_var
 from distutils.version import LooseVersion
 
+
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir, build_with_cuda):
         Extension.__init__(self, name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
         self.build_with_cuda = build_with_cuda
+
 
 class Build(build_ext):
     def run(self):
@@ -32,7 +34,8 @@ class Build(build_ext):
 
     def build_extension(self, ext):
         if isinstance(ext, CMakeExtension):
-            extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
+            extdir = os.path.abspath(os.path.dirname(
+                self.get_ext_fullpath(ext.name)))
             info = get_paths()
             include_path = info['include']
             cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
@@ -62,10 +65,13 @@ class Build(build_ext):
                                                                   self.distribution.get_version())
             if not os.path.exists(self.build_temp):
                 os.makedirs(self.build_temp)
-            subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
-            subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
+            subprocess.check_call(
+                ['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
+            subprocess.check_call(
+                ['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
         else:
             super().build_extension(ext)
+
 
 torch_spec = importlib.util.find_spec("torch")
 tf_spec = importlib.util.find_spec("tensorflow")
@@ -89,11 +95,11 @@ if len(packages) == 0:
 if 'DIFFVG_CUDA' in os.environ:
     build_with_cuda = os.environ['DIFFVG_CUDA'] == '1'
 
-setup(name = 'diffvg',
-      version = '0.0.1',
-      install_requires = ["svgpathtools"],
-      description = 'Differentiable Vector Graphics',
-      ext_modules = [CMakeExtension('diffvg', '', build_with_cuda)],
-      cmdclass = dict(build_ext=Build, install=install),
-      packages = packages,
-      zip_safe = False)
+setup(name='diffvg',
+      version='0.0.1',
+      install_requires=["svgpathtools"],
+      description='Differentiable Vector Graphics',
+      ext_modules=[CMakeExtension('diffvg', '', build_with_cuda)],
+      cmdclass=dict(build_ext=Build, install=install),
+      packages=packages,
+      zip_safe=False)
